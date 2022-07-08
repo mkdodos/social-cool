@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Form, Container } from 'semantic-ui-react';
+import { Menu, Form, Container, Message } from 'semantic-ui-react';
 // import { useHistory } from 'react-router-dom'
 // useHistory 新版改成 useNavigate
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ function Signin() {
   const [activeItem, setActiveItem] = React.useState('register');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState('');
   const auth = getAuth()
   function onSubmit() {
     
@@ -22,6 +23,12 @@ function Signin() {
     if(activeItem==='register'){
       createUserWithEmailAndPassword(auth,email, password).then(()=>{
         navigate('/')
+      }).catch((error)=>{
+          switch(error.code){
+            case 'auth/email-already-in-use':
+            setErrorMessage('信箱已存在');
+            break;
+          }
       })
     }else if(activeItem==='signin'){
       // console.log()
@@ -72,6 +79,7 @@ function Signin() {
             onChange={(e) => setPassword(e.target.value)}
            type="password"
           />
+          {errorMessage && <Message negative>{errorMessage}</Message>}
           <Form.Button>
             {activeItem === 'register' && '註冊'}
             {activeItem === 'signin' && '登入'}
