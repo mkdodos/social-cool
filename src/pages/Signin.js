@@ -1,92 +1,76 @@
+import { Container, Form, Menu, Message } from 'semantic-ui-react';
 import React from 'react';
-import { Menu, Form, Container, Message } from 'semantic-ui-react';
-// import { useHistory } from 'react-router-dom'
-// useHistory 新版改成 useNavigate
-import { useNavigate } from 'react-router-dom';
+import '../utils/firebase';
+import { getAuth, signInWithEmailAndPassword} from 'firebase/auth'
 
-// import { getAuth } from 'firebase/auth';
-// import { signInWithEmailAndPassword } from "firebase/auth";
+const auth = getAuth();
 
-import '../utils/firebase'
-import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 function Signin() {
-  // const history = useHistory();
-  const navigate = useNavigate();
-  const [activeItem, setActiveItem] = React.useState('register');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  // 變數, 設定變數
+  const [activeItem, setActiveItem] = React.useState('login');
+  const [email, setEmail] = React.useState('mk@gmail.com');
+  const [password, setPassword] = React.useState('123456');
   const [errorMessage, setErrorMessage] = React.useState('');
-  const auth = getAuth()
   function onSubmit() {
-    
-    // 註冊或登入
-    if(activeItem==='register'){
-      createUserWithEmailAndPassword(auth,email, password).then(()=>{
-        navigate('/')
-      }).catch((error)=>{
-          switch(error.code){
-            case 'auth/email-already-in-use':
-            setErrorMessage('信箱已存在');
-            break;
-          }
-      })
-    }else if(activeItem==='signin'){
-      // console.log()
-      signInWithEmailAndPassword(auth,email,password).then(()=>{
-        navigate('/')
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode)
-        console.log(errorMessage)
-      });
-    }
-   
-    // console.log('signin')
-    // signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password).then(userCredential =>{
+      console.log(userCredential.user.email)
+    }).catch(error=>{
+      switch(error.code){
+        case 'auth/wrong-password':
+          setErrorMessage('密碼錯誤')
+        console.log(error.code)
+        break;
+        ;
+      }
+      
+    })
   }
   return (
-    <>
-      <Container>
-        <Menu widths="2">
-          {/* active 會加上樣式,變反灰 
-          在每個項目設定 active 樣式產生的條件
-          按下項目時,設定滿足條件的值
-          */}
-          <Menu.Item
-            active={activeItem === 'register'}
-            onClick={() => setActiveItem('register')}
-          >
-            註冊
-          </Menu.Item>
-          <Menu.Item
-            active={activeItem === 'signin'}
-            onClick={() => setActiveItem('signin')}
-          >
-            登入
-          </Menu.Item>
-        </Menu>
-        <Form onSubmit={onSubmit}>
-          <Form.Input
-            label="信箱"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="請輸入信箱"
-          />
-          <Form.Input label="密碼"  placeholder="請輸入密碼" 
-          value={password}
-       
-            onChange={(e) => setPassword(e.target.value)}
-           type="password"
-          />
-          {errorMessage && <Message negative>{errorMessage}</Message>}
-          <Form.Button>
-            {activeItem === 'register' && '註冊'}
-            {activeItem === 'signin' && '登入'}
-          </Form.Button>
-        </Form>
-      </Container>
-    </>
+    <Container>
+      {/* widths=2 寬度均分 */}
+      <Menu widths={2}>
+        {/* active 設定作用中樣式
+        用變數 activeItem 做為 active 的條件
+        按下項目設定為符合條件的值
+        */}
+        <Menu.Item
+          active={activeItem === 'login'}
+          onClick={() => setActiveItem('login')}
+        >
+          Login
+        </Menu.Item>
+        <Menu.Item
+          active={activeItem === 'signup'}
+          onClick={() => setActiveItem('signup')}
+        >
+          Sign up
+        </Menu.Item>
+      </Menu>
+      <Form onSubmit={onSubmit}>
+        <Form.Input
+          label="帳號"
+          placeholder="請輸入帳號"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <Form.Input label="密碼" placeholder="請輸入密碼"
+        value={password}
+        onChange={(e)=>{
+          setPassword(e.target.value)
+        }}
+        />
+        {/* 登入錯誤提示 */}
+        {errorMessage && <Message negative>{errorMessage}</Message>}
+        <Form.Button primary>
+          {/* 依變數值呈現不同文字 */}
+          {activeItem === 'login' && 'Login'}
+          {activeItem === 'signup' && 'Sign up'}
+        </Form.Button>
+        {/* <Button secondary>Secondary</Button> */}
+      </Form>
+    </Container>
   );
 }
 
