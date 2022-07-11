@@ -1,4 +1,4 @@
-import { Card, Icon, Form, Container } from 'semantic-ui-react';
+import { Card, Icon, Form, Container, Image, Button } from 'semantic-ui-react';
 import app from '../utils/firebase';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import React from 'react';
@@ -25,14 +25,26 @@ function NewPost() {
     
   }, []);
 
-  console.log(topics);
+  // console.log(topics);
   const options = topics.map((topic)=>{
     return {text:topic.name,
     value:topic.name}
   })
+
+  const [file, setFile] = React.useState(null);
+  const previewUrl = file ? URL.createObjectURL(file) : "https://fakeimg.pl/300/" ;
   return (
     <Container>
       <Form>
+        {/* 放預覽圖片 */}
+        {/* <Image src="https://fakeimg.pl/300/" floated='left' size="small" /> */}
+        <Image src={previewUrl} floated='left' size="small" />
+        {/* as="label" htmlFor 才有作用 */}
+        <Button basic htmlFor="post-image" as="label" >上傳圖片</Button> 
+        {/* 上傳檔案元件 */}
+        <Form.Input type="file" id="post-image" style={{display:'none'}} onChange={(e)=>{
+          setFile(e.target.files[0])
+        }} />
         <Form.Input placeholder="請輸入標題" />
         <Form.TextArea placeholder="內容" />
         <Form.Dropdown
