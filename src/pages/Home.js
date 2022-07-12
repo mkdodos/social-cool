@@ -10,32 +10,31 @@ import {
   GridRow,
   GridColumn,
   Header,
+  
+  Item,
 } from 'semantic-ui-react';
 import Topics from '../components/Topics';
 
-
-
-
 function Home() {
   const [posts, setPosts] = React.useState([]);
-  const db = getFirestore(app);  
+  const db = getFirestore(app);
   const postsRef = collection(db, 'posts');
   // 取得所有文章資料
-  React.useState(()=>{
-    console.log('abc')
+  React.useState(() => {
+    
     const fetchData = async () => {
       const dataRef = await getDocs(postsRef);
       const data = dataRef.docs.map((docRef) => {
-        return docRef.data();
+        const id = docRef.id;
+        return {...docRef.data(), id:id};
       });
 
       setPosts(data);
       // console.log(data)
     };
     // 執行
-    fetchData()
-    
-  },[])
+    fetchData();
+  }, []);
   return (
     <Container>
       <Grid>
@@ -45,19 +44,29 @@ function Home() {
             <Topics />
           </GridColumn>
           <GridColumn width={10}>
-          <Header>文章列表</Header>
-            {
-           
-<List selection divided size='large'>
-      {posts.map((post) => {
-        return <List.Item key={post.imageUrl}>
-          {post.title}
-          </List.Item>;
-      })}
-    </List>
-
-
-          }</GridColumn>
+            {/* <Header>文章列表</Header> */}
+            <Item.Group>
+              {posts.map((post) => {
+                return (
+                  <Item key={post.id}>
+                    <Item.Image src={post.imageUrl} />
+                    <Item.Content>
+                      <Item.Meta>
+                        <Icon name="user circle"/>
+                        {post.topicName}。使用者
+                      </Item.Meta>
+                      <Item.Header>{post.title}</Item.Header>
+                      <Item.Description>
+                      {post.content}
+                    </Item.Description>
+                    <Item.Extra>留言 0 。 按讚 0</Item.Extra>
+                    </Item.Content>
+                  
+                  </Item>
+                );
+              })}
+            </Item.Group>
+          </GridColumn>
           <GridColumn width={3}>空白</GridColumn>
         </GridRow>
       </Grid>
