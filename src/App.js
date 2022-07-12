@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import  Home  from './pages/Home';
 import  Signin  from './pages/Signin';
 import  NewPost  from './pages/NewPost';
+import Post from './pages/Post';
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/new-post" element={<NewPost />} />
+        <Route path="/post/:postId" element={<Post />} />
       </Routes>
     </BrowserRouter>
   );

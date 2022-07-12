@@ -1,9 +1,10 @@
 import React from 'react';
 import app from '../utils/firebase';
 import { getFirestore, getDocs, collection } from 'firebase/firestore';
-
+import {Link } from 'react-router-dom'
 import {
   List,
+ 
   Container,
   Icon,
   Grid,
@@ -48,14 +49,17 @@ function Home() {
             <Item.Group>
               {posts.map((post) => {
                 return (
-                  <Item key={post.id}>
+                  <Item key={post.id} as={Link} to={`/post/${post.id}`}>
                     <Item.Image src={post.imageUrl} />
                     <Item.Content>
+                    <Item.Header>{post.title}</Item.Header>
+                    
+                    
                       <Item.Meta>
                         <Icon name="user circle"/>
                         {post.topicName}。使用者
                       </Item.Meta>
-                      <Item.Header>{post.title}</Item.Header>
+                      
                       <Item.Description>
                       {post.content}
                     </Item.Description>
