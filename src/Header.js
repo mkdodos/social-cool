@@ -10,7 +10,7 @@ function Header() {
     // 監聽 user 登入狀態
     auth.onAuthStateChanged((currentUser)=>{
       setUser(currentUser)  
-      console.log(user)    
+      // console.log(user)    
     })
   })
 

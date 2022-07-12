@@ -23,6 +23,7 @@ function Topics() {
     };
     // 執行
     fetchData();
+    // console.log(topics)
   }, []);
   return (
     <List selection divided size='large'>

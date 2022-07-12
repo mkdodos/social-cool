@@ -43,14 +43,7 @@ function NewPost() {
   const previewUrl = file
     ? URL.createObjectURL(file)
     : 'https://react.semantic-ui.com/images/wireframe/image.png';
-  function onUploadFile() {
-    console.log('ddd')
-    uploadBytes(storageRef, file).then(() => {
-      console.log('Uploaded a blob or file!');
-    }).catch(error=>{
-      console.log(error.message)
-    });
-  }
+ 
   function onSubmit() {
     setIsLoading(true)
     const auth = getAuth()
@@ -74,18 +67,16 @@ function NewPost() {
             // 設定 imageUrl 欄位值
             updateDoc(doc(db, "posts", docRef.id), {
               imageUrl: url             
-            });
-
-            console.log(url)
+            });            
           })
-          console.log('Uploaded a blob or file!');
+          
         }).catch(error=>{
           console.log(error.message)
         });
 
         setIsLoading(false)
         navigate('/')
-        // console.log('OK')
+        
       });
     };
 
