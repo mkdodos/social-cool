@@ -18,7 +18,7 @@ function Home() {
             <Topics />
           </GridColumn>
           <GridColumn width={10}>文章列表</GridColumn>
-          <GridColumn>空白</GridColumn>
+          <GridColumn width={3}>空白</GridColumn>
         </GridRow>
       </Grid>
     </Container>

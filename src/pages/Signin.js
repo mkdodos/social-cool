@@ -2,10 +2,13 @@ import { Container, Form, Menu, Message } from 'semantic-ui-react';
 import React from 'react';
 import '../utils/firebase';
 import { getAuth, signInWithEmailAndPassword} from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 const auth = getAuth();
 
 function Signin() {
+  
+  const navigate = useNavigate();
   // 變數, 設定變數
   const [activeItem, setActiveItem] = React.useState('login');
   const [email, setEmail] = React.useState('mk@gmail.com');
@@ -14,6 +17,8 @@ function Signin() {
   function onSubmit() {
     signInWithEmailAndPassword(auth, email, password).then(userCredential =>{
       console.log(userCredential.user.email)
+      // 導到首頁
+      navigate('/')
     }).catch(error=>{
       switch(error.code){
         case 'auth/wrong-password':
