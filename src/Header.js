@@ -1,10 +1,12 @@
-import { Menu } from 'semantic-ui-react';
+import { Menu, Search } from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
-import app from './utils/firebase'
+// import app from './utils/firebase'
 import { getAuth, signOut } from 'firebase/auth'
 import React from 'react';
+import algolia from './utils/algolia';
 function Header() {
   const auth = getAuth();
+  const [inputValue, setInputValue] = React.useState('')
   const [user, setUser] = React.useState(null)
   React.useEffect(()=>{
     // 監聽 user 登入狀態
@@ -15,6 +17,7 @@ function Header() {
   })
 
   const navigate = useNavigate();
+
   function onSignout() {
     
     // const navigate = useNavigate(); 
@@ -23,9 +26,24 @@ function Header() {
     signOut(auth).then(navigate('/'))
   }
 
+  // algolia search
+  function onSearchChange(e,{value}) {
+    setInputValue(value)
+    algolia.search(value).then((result)=>{
+      console.log(result.hits)
+    })
+  }
+
+
   return (
     <Menu>
       <Menu.Item>Social Cool</Menu.Item>
+      <Menu.Item>
+        <Search
+        value={inputValue}
+        onSearchChange={onSearchChange}
+        />
+      </Menu.Item>
       <Menu.Item as={Link} to='/'>Home</Menu.Item>
       <Menu.Item as={Link} to='/new-post'>New Post</Menu.Item>
       {/* 靠右對齊 */}

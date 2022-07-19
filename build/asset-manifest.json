@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.js": "/social-cool/build/static/js/main.d5630543.chunk.js",
+    "main.js.map": "/social-cool/build/static/js/main.d5630543.chunk.js.map",
+    "runtime-main.js": "/social-cool/build/static/js/runtime-main.dbc98192.js",
+    "runtime-main.js.map": "/social-cool/build/static/js/runtime-main.dbc98192.js.map",
+    "static/css/2.3fb38356.chunk.css": "/social-cool/build/static/css/2.3fb38356.chunk.css",
+    "static/js/2.3f8b508b.chunk.js": "/social-cool/build/static/js/2.3f8b508b.chunk.js",
+    "static/js/2.3f8b508b.chunk.js.map": "/social-cool/build/static/js/2.3f8b508b.chunk.js.map",
+    "index.html": "/social-cool/build/index.html",
+    "static/css/2.3fb38356.chunk.css.map": "/social-cool/build/static/css/2.3fb38356.chunk.css.map",
+    "static/js/2.3f8b508b.chunk.js.LICENSE.txt": "/social-cool/build/static/js/2.3f8b508b.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/social-cool/build/static/media/outline-icons.ddae9b1b.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.dbc98192.js",
+    "static/css/2.3fb38356.chunk.css",
+    "static/js/2.3f8b508b.chunk.js",
+    "static/js/main.d5630543.chunk.js"
+  ]
+}
